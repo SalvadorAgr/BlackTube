@@ -1,0 +1,67 @@
+:root {
+  --primary-text-color: #fff;
+  --bg-color: #030712;
+  --card-bg-color: #18181b;
+  --secondary-card-bg-color: #000;
+  --side-nav-color: #18181b;
+  --search-bar-color: #18181b;
+  --primary-color: #4f46e5;
+  --accent-color-rgb: 79 70 229;
+  --accent-color-visited: #818cf8;
+}
+
+body {
+  margin: 0;
+  min-block-size: 100vh;
+  color: var(--primary-text-color);
+  background-color: var(--bg-color);
+
+  --accent-color: rgb(var(--accent-color-rgb));
+  --accent-color-opacity1: rgb(var(--accent-color-rgb) / 4%);
+  --accent-color-opacity2: rgb(var(--accent-color-rgb) / 12%);
+  --accent-color-opacity3: rgb(var(--accent-color-rgb) / 16%);
+  --accent-color-opacity4: rgb(var(--accent-color-rgb) / 24%);
+
+  --primary-input-color: rgb(0 0 0 / 50%);
+  --link-color: var(--accent-color);
+  --link-visited-color: var(--accent-color-visited);
+  --instance-menu-color: var(--search-bar-color);
+  --red-500: #f44336;
+  --top-bar-push-down-adjustment-default: -35px;
+  --top-bar-push-down-adjustment-no-description: 0px;
+  --top-bar-push-down-adjustment-edit-mode: 0px;
+  --top-bar-push-down-adjustment-one-or-fewer: 0px;
+
+  --destructive-color: #f44336;
+  --destructive-text-color: #000;
+  --destructive-hover-color: #e53935;
+  --destructive-active-color: #c62828;
+
+  --logo-primary-color: var(--primary-text-color);
+  --logo-secondary-color: var(--primary-text-color);
+  --logo-tertiary-color: var(--primary-text-color);
+
+  /* Glassmorphism System */
+  --glass-bg: rgba(24, 24, 27, 0.75);
+  --glass-blur: blur(16px);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+}
+
+/* Global glassmorphism overrides for overlays */
+.ft-card, 
+.promptCard, 
+.iconDropdown, 
+.moreOptionContainer, 
+.list, 
+.toast {
+  background-color: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur) saturate(180%) !important;
+  -webkit-backdrop-filter: var(--glass-blur) saturate(180%) !important;
+  border: var(--glass-border) !important;
+  box-shadow: var(--glass-shadow) !important;
+}
+
+.black-tube {
+  /* Nueva base Black Tube */
+}

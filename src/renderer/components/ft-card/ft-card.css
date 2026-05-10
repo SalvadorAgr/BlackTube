@@ -1,0 +1,10 @@
+.ft-card {
+  background-color: rgb(24 24 27 / 70%);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgb(255 255 255 / 10%);
+  margin: 8px;
+  padding-block: 3px 16px;
+  padding-inline: 16px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}

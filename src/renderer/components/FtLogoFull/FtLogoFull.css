@@ -1,0 +1,25 @@
+.black-tube-logo-full {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.black-tube-logo-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 4px; /* 0.25rem */
+}
+
+.black-tube-logo-text {
+  font-size: 32px;
+  font-weight: 600; /* Semi-bold for titles */
+  letter-spacing: 1px;
+}
+
+.primary-color {
+  color: var(--primary-text-color);
+}
+
+.secondary-color {
+  color: #4f46e5; /* Indigo */
+}
