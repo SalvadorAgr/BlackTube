@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Subscriptions from '../views/Subscriptions/Subscriptions.vue'
+import Home from '../views/Home/Home.vue'
 import SubscribedChannels from '../views/SubscribedChannels/SubscribedChannels.vue'
 import ProfileSettings from '../views/ProfileSettings/ProfileSettings.vue'
 import Trending from '../views/Trending/Trending.vue'
@@ -20,11 +21,11 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'default',
+      name: 'home',
       meta: {
-        title: 'Subscriptions'
+        title: 'Home'
       },
-      component: Subscriptions
+      component: Home
     },
     {
       path: '/subscriptions',

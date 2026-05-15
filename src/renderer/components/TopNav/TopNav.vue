@@ -13,58 +13,7 @@
         <LucideIcon
           class="navIcon"
           name="menu"
-          :size="20"
-        />
-      </button>
-      <FtIconButton
-        class="navIconButton"
-        :disabled="isArrowBackwardDisabled"
-        :class="{ arrowDisabled: isArrowBackwardDisabled }"
-        :icon="'arrow-left'"
-        :theme="null"
-        :size="20"
-        :use-shadow="false"
-        dropdown-position-x="right"
-        :dropdown-options="navigationHistoryDropdownOptions"
-        open-on-right-or-long-click
-        :title="backwardText"
-        @click="historyBack"
-      />
-      <FtIconButton
-        class="navIconButton"
-        :disabled="isArrowForwardDisabled"
-        :class="{ arrowDisabled: isArrowForwardDisabled }"
-        :icon="'arrow-right'"
-        :theme="null"
-        :size="20"
-        :use-shadow="false"
-        dropdown-position-x="right"
-        :dropdown-options="navigationHistoryDropdownOptions"
-        open-on-right-or-long-click
-        :title="forwardText"
-        @click="historyForward"
-      />
-      <button
-        v-if="!hideSearchBar"
-        class="navSearchButton navButton"
-        @click="toggleSearchContainer"
-      >
-        <LucideIcon
-          class="navIcon"
-          name="search"
-          :size="20"
-        />
-      </button>
-      <button
-        class="navNewWindowButton navButton"
-        :aria-label="t('Open New Window')"
-        :title="newWindowText"
-        @click="createNewWindow"
-      >
-        <LucideIcon
-          class="navIcon"
-          name="square-stack"
-          :size="20"
+          :size="24"
         />
       </button>
       <RouterLink
@@ -74,12 +23,7 @@
         :title="headerLogoTitle"
         :to="landingPage"
       >
-        <div
-          class="logoIcon"
-        />
-        <span
-          class="logoText"
-        >Black Tube</span>
+        <img src="../../assets/images/playblack_logo.svg" alt="PlayBlack" class="logoImage" />
       </RouterLink>
     </div>
     <div class="middle">
@@ -103,22 +47,42 @@
           @clear="clearLastSuggestionQuery"
           @remove="removeSearchHistoryEntryInDbAndCache"
         />
-        <button
-          class="navFilterButton navButton"
-          :class="{ filterChanged: searchFilterValueChanged }"
-          :aria-label="t('Search Filters.Search Filters')"
-          :title="t('Search Filters.Search Filters')"
-          @click="showSearchFilters"
-        >
-          <LucideIcon
-            class="navIcon"
-            name="filter"
-            :size="20"
-          />
-        </button>
+
       </div>
     </div>
-    <FtProfileSelector class="side profiles" />
+    <div class="side right-icons">
+      <button
+        class="navButton"
+        :title="t('Create')"
+      >
+        <LucideIcon
+          class="navIcon"
+          name="video"
+          :size="20"
+        />
+      </button>
+      <button
+        class="navButton"
+        :title="t('YouTube Apps')"
+      >
+        <LucideIcon
+          class="navIcon"
+          name="layout-grid"
+          :size="20"
+        />
+      </button>
+      <button
+        class="navButton"
+        :title="t('Notifications')"
+      >
+        <LucideIcon
+          class="navIcon"
+          name="bell"
+          :size="20"
+        />
+      </button>
+      <FtProfileSelector class="profiles" />
+    </div>
   </nav>
 </template>
 

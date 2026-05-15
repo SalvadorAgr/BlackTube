@@ -1,13 +1,13 @@
 :root {
   --primary-text-color: #fff;
-  --bg-color: #030712;
-  --card-bg-color: #18181b;
+  --bg-color: #020205;
+  --card-bg-color: rgba(255, 255, 255, 0.05);
   --secondary-card-bg-color: #000;
-  --side-nav-color: #18181b;
-  --search-bar-color: #18181b;
-  --primary-color: #4f46e5;
-  --accent-color-rgb: 79 70 229;
-  --accent-color-visited: #818cf8;
+  --side-nav-color: rgba(0, 0, 0, 0.4);
+  --search-bar-color: rgba(255, 255, 255, 0.03);
+  --primary-color: #ff0040;
+  --accent-color-rgb: 255 0 64;
+  --accent-color-visited: #ff4d7a;
 }
 
 body {

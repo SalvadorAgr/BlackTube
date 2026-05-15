@@ -1,251 +1,246 @@
 <template>
-  <FtFlexBox
-    class="sideNav"
-    :class="[{closed: !isOpen}, applyHiddenLabels]"
-    role="navigation"
-  >
-    <div
-      class="inner"
-      :class="applyHiddenLabels"
-    >
-      <router-link
-        class="navOption topNavOption mobileShow "
-        role="button"
-        to="/subscriptions"
-        :title="$t('Subscriptions.Subscriptions')"
-      >
-        <div
-          class="thumbnailContainer"
-        >
-          <LucideIcon
-            name="rss"
-            class="navIcon"
-            :class="applyNavIconExpand"
-            :size="20"
-          />
-        </div>
-        <p
-          v-if="!hideText"
-          class="navLabel"
-        >
-          {{ $t("Subscriptions.Subscriptions") }}
-        </p>
-      </router-link>
-      <router-link
-        class="navOption mobileHidden"
-        role="button"
-        to="/subscribedchannels"
-        :title="$t('Channels.Channels')"
-      >
-        <div
-          class="thumbnailContainer"
-        >
-          <LucideIcon
-            name="user-check"
-            class="navIcon"
-            :class="applyNavIconExpand"
-            :size="20"
-          />
-        </div>
-        <p
-          v-if="!hideText"
-          class="navLabel"
-        >
-          {{ $t("Channels.Channels") }}
-        </p>
-      </router-link>
-      <router-link
-        v-if="SUPPORTS_LOCAL_API && !hideTrendingVideos && (backendFallback || backendPreference === 'local')"
-        class="navOption mobileHidden"
-        role="button"
-        to="/trending"
-        :title="$t('Trending.Trending')"
-      >
-        <div
-          class="thumbnailContainer"
-        >
-          <LucideIcon
-            name="flame"
-            class="navIcon"
-            :class="applyNavIconExpand"
-            :size="20"
-          />
-        </div>
-        <p
-          v-if="!hideText"
-          class="navLabel"
-        >
-          {{ $t("Trending.Trending") }}
-        </p>
-      </router-link>
-      <router-link
-        v-if="!hidePopularVideos && (backendFallback || backendPreference === 'invidious')"
-        class="navOption mobileHidden"
-        role="button"
-        to="/popular"
-        :title="$t('Most Popular')"
-      >
-        <div
-          class="thumbnailContainer"
-        >
-          <LucideIcon
-            name="users"
-            class="navIcon"
-            :class="applyNavIconExpand"
-            :size="20"
-          />
-        </div>
-        <p
-          v-if="!hideText"
-          class="navLabel"
-        >
-          {{ $t("Most Popular") }}
-        </p>
-      </router-link>
-      <router-link
-        v-if="!hidePlaylists"
-        class="navOption mobileShow"
-        role="button"
-        to="/userplaylists"
-        :title="$t('Playlists')"
-      >
-        <div
-          class="thumbnailContainer"
-        >
-          <LucideIcon
-            name="bookmark"
-            class="navIcon"
-            :class="applyNavIconExpand"
-            :size="20"
-          />
-        </div>
-        <p
-          v-if="!hideText"
-          class="navLabel"
-        >
-          {{ $t("Playlists") }}
-        </p>
-      </router-link>
-      <SideNavMoreOptions />
-      <router-link
-        class="navOption mobileShow"
-        role="button"
-        to="/history"
-        :title="historyTitle"
-      >
-        <div
-          class="thumbnailContainer"
-        >
-          <LucideIcon
-            name="history"
-            class="navIcon"
-            :class="applyNavIconExpand"
-            :size="20"
-          />
-        </div>
-        <p
-          v-if="!hideText"
-          class="navLabel"
-        >
-          {{ $t("History.History") }}
-        </p>
-      </router-link>
-      <hr>
-      <router-link
-        class="navOption mobileShow smallMobileOnlyHidden"
-        role="button"
-        to="/settings"
-        :title="settingsTitle"
-      >
-        <div
-          class="thumbnailContainer"
-        >
-          <LucideIcon
-            name="sliders-horizontal"
-            class="navIcon"
-            :class="applyNavIconExpand"
-            :size="20"
-          />
-        </div>
-        <p
-          v-if="!hideText"
-          class="navLabel"
-        >
-          {{ $t('Settings.Settings') }}
-        </p>
-      </router-link>
-      <router-link
-        class="navOption mobileHidden"
-        role="button"
-        to="/about"
-        :title="$t('About.About')"
-      >
-        <div
-          class="thumbnailContainer"
-        >
-          <LucideIcon
-            name="info"
-            class="navIcon"
-            :class="applyNavIconExpand"
-            :size="20"
-          />
-        </div>
-        <p
-          v-if="!hideText"
-          class="navLabel"
-        >
-          {{ $t("About.About") }}
-        </p>
-      </router-link>
-      <hr>
-      <div
-        v-if="!hideActiveSubscriptions"
-        class="mobileHidden"
-      >
-        <router-link
-          v-for="channel in activeSubscriptions"
-          :key="channel.id"
-          :to="`/channel/${channel.id}`"
-          class="navChannel channelLink mobileHidden"
-          :title="channel.name"
-          role="button"
-        >
-          <div
-            class="thumbnailContainer"
-          >
-            <img
-              v-if="channel.thumbnail != null"
-              class="channelThumbnail"
-              height="35"
-              width="35"
-              loading="lazy"
-              :src="channel.thumbnail"
-              :alt="isOpen ? '' : channel.name"
-            >
-            <LucideIcon
-              class="channelThumbnail noThumbnail"
-              name="user-circle"
-              :size="35"
-            />
+  <div class="sidebar">
+    <div class="sidebar-top">
+      <div class="sidebar-menu">
+        <div class="sidebar-menu-item active">
+          <LucideIcon name="home" class="sidebar-menu-icon" :size="24" />
+          <div class="sidebar-menu-title">
+            <span>Home</span>
           </div>
-          <p
-            v-if="isOpen"
-            class="navLabel"
-            dir="auto"
-          >
-            {{ channel.name }}
-          </p>
-        </router-link>
+        </div>
+      </div>
+      <div class="sidebar-menu">
+        <div class="sidebar-menu-item">
+          <LucideIcon name="compass" class="sidebar-menu-icon" :size="24" />
+          <div class="sidebar-menu-title">
+            <span>Explore</span>
+          </div>
+        </div>
+      </div>
+      <div class="sidebar-menu">
+        <div class="sidebar-menu-item">
+          <LucideIcon name="radio" class="sidebar-menu-icon" :size="24" />
+          <div class="sidebar-menu-title">
+            <span>Subscriptions</span>
+          </div>
+        </div>
       </div>
     </div>
-  </FtFlexBox>
+    
+    <div class="sidebar-top-2">
+      <div class="border"></div>
+      <div class="frame-1">
+        <div class="sidebar-menu">
+          <div class="sidebar-menu-item">
+            <LucideIcon name="layout-grid" class="sidebar-menu-icon" :size="24" />
+            <div class="sidebar-menu-title">
+              <span>Library</span>
+            </div>
+          </div>
+        </div>
+        <div class="sidebar-menu">
+          <div class="sidebar-menu-item">
+            <LucideIcon name="history" class="sidebar-menu-icon" :size="24" />
+            <div class="sidebar-menu-title">
+              <span>History</span>
+            </div>
+          </div>
+        </div>
+        <div class="sidebar-menu">
+          <div class="sidebar-menu-item">
+            <LucideIcon name="play-square" class="sidebar-menu-icon" :size="24" />
+            <div class="sidebar-menu-title">
+              <span>Your Videos</span>
+            </div>
+          </div>
+        </div>
+        <div class="sidebar-menu">
+          <div class="sidebar-menu-item">
+            <LucideIcon name="clock" class="sidebar-menu-icon" :size="24" />
+            <div class="sidebar-menu-title">
+              <span>Watch Later</span>
+            </div>
+          </div>
+        </div>
+        <div class="sidebar-menu">
+          <div class="sidebar-menu-item">
+            <LucideIcon name="thumbs-up" class="sidebar-menu-icon" :size="24" />
+            <div class="sidebar-menu-title">
+              <span>Liked Videos</span>
+            </div>
+          </div>
+        </div>
+        <div class="sidebar-menu">
+          <div class="sidebar-menu-item">
+            <LucideIcon name="chevron-down" class="sidebar-menu-icon" :size="24" />
+            <div class="sidebar-menu-title">
+              <span>Show More</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="border"></div>
+    </div>
+    
+    <div class="sidebar-subscriptions">
+      <div class="sidebar-menu-title-header">
+        <span class="subscriptions-text">SUBSCRIPTIONS</span>
+      </div>
+      <div class="frame-2">
+        <div class="sidebar-menu">
+          <div class="sidebar-menu-item">
+            <div class="user-avatar-container bg-red"></div>
+            <div class="sidebar-menu-title">
+              <span>James Gouse</span>
+            </div>
+          </div>
+        </div>
+        <div class="sidebar-menu">
+          <div class="sidebar-menu-item">
+            <div class="user-avatar-container bg-teal"></div>
+            <div class="sidebar-menu-title">
+              <span>Alan Cooper</span>
+            </div>
+          </div>
+        </div>
+        <div class="sidebar-menu">
+          <div class="sidebar-menu-item">
+            <div class="user-avatar-container bg-gray"></div>
+            <div class="sidebar-menu-title">
+              <span>Marcus Levin</span>
+            </div>
+          </div>
+        </div>
+        <div class="sidebar-menu">
+          <div class="sidebar-menu-item">
+            <div class="user-avatar-container bg-pink"></div>
+            <div class="sidebar-menu-title">
+              <span>Alexis Sears</span>
+            </div>
+          </div>
+        </div>
+        <div class="sidebar-menu">
+          <div class="sidebar-menu-item">
+            <div class="user-avatar-container bg-purple"></div>
+            <div class="sidebar-menu-title">
+              <span>Jesica Lambert</span>
+            </div>
+          </div>
+        </div>
+        <div class="sidebar-menu">
+          <div class="sidebar-menu-item">
+            <div class="user-avatar-container bg-blue"></div>
+            <div class="sidebar-menu-title">
+              <span>Anna White</span>
+            </div>
+          </div>
+        </div>
+        <div class="sidebar-menu">
+          <div class="sidebar-menu-item">
+            <div class="user-avatar-container bg-yellow"></div>
+            <div class="sidebar-menu-title">
+              <span>Skylar Dias</span>
+            </div>
+          </div>
+        </div>
+        <div class="sidebar-menu">
+          <div class="sidebar-menu-item">
+            <LucideIcon name="chevron-down" class="sidebar-menu-icon" :size="24" />
+            <div class="sidebar-menu-title">
+              <span>Show 13 more</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="border"></div>
+    </div>
+    
+    <div class="sidebar-more-from">
+      <div class="sidebar-menu-title-header">
+        <span class="subscriptions-text">MORE FROM YOUTUBE</span>
+      </div>
+      <div class="frame-3">
+        <div class="sidebar-menu">
+          <div class="sidebar-menu-item">
+            <LucideIcon name="award" class="sidebar-menu-icon" :size="24" />
+            <div class="sidebar-menu-title">
+              <span>YouTube Premium</span>
+            </div>
+          </div>
+        </div>
+        <div class="sidebar-menu">
+          <div class="sidebar-menu-item">
+            <LucideIcon name="gamepad-2" class="sidebar-menu-icon" :size="24" />
+            <div class="sidebar-menu-title">
+              <span>Gaming</span>
+            </div>
+          </div>
+        </div>
+        <div class="sidebar-menu">
+          <div class="sidebar-menu-item">
+            <LucideIcon name="radio-receiver" class="sidebar-menu-icon" :size="24" />
+            <div class="sidebar-menu-title">
+              <span>Live</span>
+            </div>
+          </div>
+        </div>
+        <div class="sidebar-menu">
+          <div class="sidebar-menu-item">
+            <LucideIcon name="trophy" class="sidebar-menu-icon" :size="24" />
+            <div class="sidebar-menu-title">
+              <span>Sports</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="border"></div>
+    </div>
+    
+    <div class="sidebar-bottom">
+      <div class="frame-4">
+        <div class="sidebar-menu">
+          <div class="sidebar-menu-item">
+            <LucideIcon name="settings" class="sidebar-menu-icon" :size="24" />
+            <div class="sidebar-menu-title">
+              <span>Settings</span>
+            </div>
+          </div>
+        </div>
+        <div class="sidebar-menu">
+          <div class="sidebar-menu-item">
+            <LucideIcon name="flag" class="sidebar-menu-icon" :size="24" />
+            <div class="sidebar-menu-title">
+              <span>Report history</span>
+            </div>
+          </div>
+        </div>
+        <div class="sidebar-menu">
+          <div class="sidebar-menu-item">
+            <LucideIcon name="circle-help" class="sidebar-menu-icon" :size="24" />
+            <div class="sidebar-menu-title">
+              <span>Help</span>
+            </div>
+          </div>
+        </div>
+        <div class="sidebar-menu">
+          <div class="sidebar-menu-item">
+            <LucideIcon name="message-square" class="sidebar-menu-icon" :size="24" />
+            <div class="sidebar-menu-title">
+              <span>Send feedback</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="border"></div>
+    </div>
+  </div>
 </template>
 
 <script setup>
 import { computed } from 'vue'
 import { useI18n } from '../../composables/use-i18n-polyfill'
 
-import FtFlexBox from '../ft-flex-box/ft-flex-box.vue'
+import LucideIcon from '../LucideIcon.vue'
 import SideNavMoreOptions from '../SideNavMoreOptions/SideNavMoreOptions.vue'
 
 import store from '../../store/index'

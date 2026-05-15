@@ -30,5 +30,10 @@
     "yml",
     "yaml"
   ],
-  "javascript.preferences.importModuleSpecifier": "relative"
+  "javascript.preferences.importModuleSpecifier": "relative",
+  "builder.serverUrl": "http://localhost:5173/",
+  "builder.command": "yarn start",
+  "builder.runDevServer": false,
+  "builder.autoDetectDevServer": true,
+  "builder.launchType": "desktop"
 }

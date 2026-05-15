@@ -12,14 +12,15 @@
     <TopNav
       :inert="isAnyPromptOpen"
     />
-    <SideNav
-      :inert="isAnyPromptOpen"
-    />
-    <FtFlexBox
-      class="flexBox routerView"
-      role="main"
-      :inert="isAnyPromptOpen"
-    >
+    <div class="main-content-wrapper">
+      <SideNav
+        :inert="isAnyPromptOpen"
+      />
+      <FtFlexBox
+        class="flexBox routerView"
+        role="main"
+        :inert="isAnyPromptOpen"
+      >
       <div
         v-if="showUpdatesBanner || showBlogBanner"
         class="banner-wrapper"
@@ -50,7 +51,8 @@
           <component :is="Component" />
         </Transition>
       </RouterView>
-    </FtFlexBox>
+      </FtFlexBox>
+    </div>
     <FtPrompt
       v-if="showReleaseNotes"
       theme="readable-width"
@@ -108,6 +110,7 @@
     <FtProgressBar
       v-if="showProgressBar"
     />
+    <MusicPlayer />
   </div>
 </template>
 
@@ -129,6 +132,7 @@ import FtPlaylistAddVideoPrompt from './components/FtPlaylistAddVideoPrompt/FtPl
 import FtCreatePlaylistPrompt from './components/FtCreatePlaylistPrompt/FtCreatePlaylistPrompt.vue'
 import FtKeyboardShortcutPrompt from './components/FtKeyboardShortcutPrompt/FtKeyboardShortcutPrompt.vue'
 import FtSearchFilters from './components/FtSearchFilters/FtSearchFilters.vue'
+import MusicPlayer from './components/MusicPlayer/MusicPlayer.vue'
 import { vSaferHtml } from './directives/vSaferHtml.js'
 
 import store from './store/index'

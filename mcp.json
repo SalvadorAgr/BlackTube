@@ -1,0 +1,24 @@
+{
+  "mcpServers": {
+    "builder-dsi": {
+      "command": "npx",
+      "args": [
+        "@builder.io/dev-tools@latest",
+        "dsi-mcp"
+      ]
+    },
+    "figma-ai-bridge": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "figma-developer-mcp",
+        "--stdio"
+      ],
+      "env": {
+        "FIGMA_API_KEY": "figd_ngWso2BLJzuscSMYRFkURqbMSC4HFRveuCn8oAVB"
+      },
+      "disabledTools": [],
+      "disabled": false
+    }
+  }
+}
