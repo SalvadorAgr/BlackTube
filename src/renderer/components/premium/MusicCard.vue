@@ -21,10 +21,10 @@
 
     <!-- Info -->
     <div class="space-y-1">
-      <h3 class="text-white font-medium text-sm truncate group-hover:text-red-400 transition-colors">
+      <h3 class="text-white font-medium text-sm truncate group-hover:glow-text-red transition-all duration-300">
         {{ title }}
       </h3>
-      <p class="text-gray-500 text-xs truncate">
+      <p class="text-gray-500 text-xs truncate group-hover:text-gray-300 transition-colors">
         {{ artist }}
       </p>
     </div>

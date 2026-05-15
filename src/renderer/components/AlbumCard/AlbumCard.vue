@@ -1,15 +1,32 @@
 <template>
-  <div class="album-card">
-    <div class="album-thumbnail">
-      <img :src="thumbnail" :alt="title" v-if="thumbnail" />
-      <div class="thumbnail-placeholder" v-else></div>
-      <div class="play-overlay">
-        <LucideIcon name="play" :size="32" fill="white" />
+  <div 
+    class="group relative bg-white/5 rounded-xl p-4 hover:bg-white/10 transition-all duration-300 cursor-pointer border border-transparent hover:border-red-950/50"
+    @click="handleClick"
+  >
+    <!-- Album Art -->
+    <div class="relative aspect-square rounded-lg overflow-hidden mb-4 bg-gradient-to-br from-red-950/20 to-black/50">
+      <img
+        :src="thumbnail"
+        :alt="title"
+        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+      />
+      
+      <!-- Play Button Overlay -->
+      <div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center">
+        <button 
+          class="w-12 h-12 bg-[#ff0040] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 shadow-[0_0_20px_rgba(255,0,64,0.6)] hover:scale-110 cursor-pointer"
+        >
+          <LucideIcon name="Play" class="w-6 h-6 text-white fill-white ml-0.5" />
+        </button>
       </div>
     </div>
-    <div class="album-info">
-      <h3 class="album-title">{{ title }}</h3>
-      <p class="album-subtitle">{{ subtitle }}</p>
+
+    <!-- Info -->
+    <div class="min-w-0">
+      <h3 class="text-white text-sm mb-1 truncate group-hover:text-[#ff0040] transition-colors font-medium">
+        {{ title }}
+      </h3>
+      <p class="text-gray-400 text-[11px] truncate">{{ artist }}</p>
     </div>
   </div>
 </template>
@@ -21,77 +38,10 @@ import LucideIcon from '../LucideIcon.vue'
 const props = defineProps({
   thumbnail: String,
   title: String,
-  subtitle: String
+  artist: String
 })
+
+function handleClick() {
+  // Logic to open album/playlist
+}
 </script>
-
-<style scoped>
-.album-card {
-  width: 180px;
-  cursor: pointer;
-  transition: transform 0.3s;
-}
-
-.album-card:hover {
-  transform: translateY(-5px);
-}
-
-.album-thumbnail {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1;
-  border-radius: 20px;
-  overflow: hidden;
-  background: #252525;
-  margin-bottom: 12px;
-}
-
-.album-thumbnail img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.thumbnail-placeholder {
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #333, #222);
-}
-
-.play-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.album-card:hover .play-overlay {
-  opacity: 1;
-}
-
-.album-title {
-  font-size: 16px;
-  font-weight: 700;
-  color: #fff;
-  margin: 0 0 4px 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.album-subtitle {
-  font-size: 14px;
-  color: rgba(255,255,255,0.6);
-  margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-</style>

@@ -1,7 +1,7 @@
 <template>
   <header 
     :class="[
-      'fixed top-0 right-0 h-16 glass z-40 px-8 flex items-center justify-between transition-all duration-300',
+      'fixed top-0 right-0 h-16 bg-black/40 backdrop-blur-md border-b border-red-950/30 z-40 px-8 flex items-center justify-between transition-all duration-300',
       isCollapsed ? 'left-20' : 'left-64'
     ]"
   >
@@ -14,37 +14,42 @@
         />
         <input
           type="text"
-          placeholder="Buscar canciones, artistas, listas..."
-          class="w-full bg-white/5 border border-white/10 rounded-full py-2 pl-12 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-red-500/50 transition-all placeholder:text-gray-600"
+          v-model="searchQuery"
+          @keyup.enter="handleSearch"
+          placeholder="Search for songs, artists, playlists..."
+          class="w-full bg-white/5 border border-red-950/30 rounded-full py-2.5 pl-12 pr-6 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-red-600/50 focus:bg-white/10 transition-all duration-300 focus:shadow-[0_0_20px_rgba(220,20,60,0.2)]"
         />
       </div>
     </div>
 
-    <!-- User Profile -->
-    <div class="flex items-center gap-4">
-      <button class="p-2 hover:bg-white/5 rounded-full text-gray-400 hover:text-white transition-colors relative">
-        <LucideIcon name="Bell" :size="20" />
-        <span class="absolute top-2 right-2 w-2 h-2 bg-red-600 rounded-full border-2 border-black" />
-      </button>
-      <div class="flex items-center gap-3 pl-4 border-l border-white/10 cursor-pointer group">
-        <div class="text-right hidden sm:block">
-          <p class="text-sm font-medium text-white group-hover:text-red-400 transition-colors">Usuario Premium</p>
-          <p class="text-xs text-gray-500">Plan Individual</p>
-        </div>
-        <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-red-600 to-purple-600 p-[2px]">
-          <div class="w-full h-full rounded-full bg-black flex items-center justify-center overflow-hidden">
-            <LucideIcon name="User" class="text-white" :size="20" />
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- Profile -->
+    <button 
+      @click="goToSettings"
+      class="ml-6 w-9 h-9 bg-gradient-to-br from-red-600 to-red-900 rounded-full flex items-center justify-center hover:shadow-[0_0_20px_rgba(220,20,60,0.6)] transition-all duration-300 hover:scale-105"
+    >
+      <LucideIcon name="User" class="w-5 h-5 text-white" />
+    </button>
   </header>
 </template>
 
 <script setup>
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import LucideIcon from '../LucideIcon.vue'
+import store from '../../store/index'
 
-defineProps({
-  isCollapsed: Boolean
-})
+const router = useRouter()
+const searchQuery = ref('')
+
+const isCollapsed = computed(() => !store.getters.getIsSideNavOpen)
+
+function handleSearch() {
+  if (searchQuery.value.trim()) {
+    router.push(`/search/${encodeURIComponent(searchQuery.value.trim())}`)
+  }
+}
+
+function goToSettings() {
+  router.push('/settings')
+}
 </script>

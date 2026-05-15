@@ -1,34 +1,37 @@
 <template>
   <div
     v-if="dataReady"
-    class="min-h-screen bg-[#020205] text-white relative overflow-hidden"
+    class="premium-shell"
     :class="{
       hideOutlines: outlinesHidden,
       isLocaleRightToLeft: isLocaleRightToLeft
     }"
   >
-    <!-- Background Blobs -->
-    <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-red-900/20 rounded-full blur-[120px] pointer-events-none" />
-    <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-900/10 rounded-full blur-[120px] pointer-events-none" />
-    <div class="absolute top-[20%] right-[10%] w-[30%] h-[30%] bg-purple-900/10 rounded-full blur-[100px] pointer-events-none" />
+    <!-- Background Blobs for Glassmorphism -->
+    <div class="bg-blob blob-red" />
+    <div class="bg-blob blob-blue" />
+    <div class="bg-blob blob-purple" />
 
-    <Sidebar 
-      :is-collapsed="isSideNavOpen" 
-      @toggle-collapse="toggleSideNav"
-    />
-    
-    <TopBar :is-collapsed="isSideNavOpen" />
+    <!-- Premium Sidebar (fixed left) -->
+    <Sidebar :inert="isAnyPromptOpen" />
 
-    <main 
-      :class="[
-        'transition-all duration-300 mt-16 mb-24 p-8 overflow-y-auto relative z-10',
-        isSideNavOpen ? 'ml-20' : 'ml-64'
-      ]"
+    <!-- Premium TopBar (fixed top, offset by sidebar) -->
+    <TopBar :inert="isAnyPromptOpen" />
+
+    <!-- Main Content Area -->
+    <main
+      class="premium-main"
+      :class="isSideNavOpen ? 'ml-64' : 'ml-20'"
+      role="main"
+      :inert="isAnyPromptOpen"
     >
-      <div v-if="showUpdatesBanner || showBlogBanner" class="mb-6">
+      <div
+        v-if="showUpdatesBanner || showBlogBanner"
+        class="banner-wrapper"
+      >
         <FtNotificationBanner
           v-if="showUpdatesBanner"
-          class="banner mb-2"
+          class="banner"
           :message="updateBannerMessage"
           role="link"
           @click="handleUpdateBannerClick"
@@ -41,30 +44,52 @@
           @click="handleNewBlogBannerClick"
         />
       </div>
-
-      <RouterView v-slot="{ Component }">
-        <Transition mode="out-in" name="fade">
+      <RouterView
+        v-slot="{ Component }"
+      >
+        <Transition
+          mode="out-in"
+          name="fade"
+        >
           <component :is="Component" />
         </Transition>
       </RouterView>
     </main>
 
-    <!-- Prompts and Overlays -->
+    <!-- Prompts & Overlays -->
     <FtPrompt
       v-if="showReleaseNotes"
       theme="readable-width"
       @click="toggleShowReleaseNotes"
     >
       <template #label="{ labelId }">
-        <h1 :id="labelId" class="changeLogTitle" dir="ltr">{{ changeLogTitle }}</h1>
+        <h1
+          :id="labelId"
+          class="changeLogTitle"
+          dir="ltr"
+        >
+          {{ changeLogTitle }}
+        </h1>
       </template>
-      <bdo v-safer-html.lenient="updateChangelog" class="changeLogText" dir="ltr" lang="en" />
+      <bdo
+        v-safer-html.lenient="updateChangelog"
+        class="changeLogText"
+        dir="ltr"
+        lang="en"
+      />
       <FtFlexBox>
-        <FtButton :label="t('Download From Site')" @click="openDownloadsPage" />
-        <FtButton :label="t('Close')" :text-color="null" :background-color="null" @click="toggleShowReleaseNotes" />
+        <FtButton
+          :label="t('Download From Site')"
+          @click="openDownloadsPage"
+        />
+        <FtButton
+          :label="t('Close')"
+          :text-color="null"
+          :background-color="null"
+          @click="toggleShowReleaseNotes"
+        />
       </FtFlexBox>
     </FtPrompt>
-
     <FtPrompt
       v-if="showExternalLinkOpeningPrompt"
       :label="t('Are you sure you want to open this link?')"
@@ -73,14 +98,22 @@
       :option-values="EXTERNAL_LINK_OPENING_PROMPT_VALUES"
       @click="handleExternalLinkOpeningPromptAnswer"
     />
-
-    <FtSearchFilters v-if="showSearchFilters" />
-    <FtKeyboardShortcutPrompt v-if="isKeyboardShortcutPromptShown" />
-    <FtPlaylistAddVideoPrompt v-if="showAddToPlaylistPrompt" />
-    <FtCreatePlaylistPrompt v-if="showCreatePlaylistPrompt" />
+    <FtSearchFilters
+      v-if="showSearchFilters"
+    />
+    <FtKeyboardShortcutPrompt
+      v-if="isKeyboardShortcutPromptShown"
+    />
+    <FtPlaylistAddVideoPrompt
+      v-if="showAddToPlaylistPrompt"
+    />
+    <FtCreatePlaylistPrompt
+      v-if="showCreatePlaylistPrompt"
+    />
     <FtToast />
-    <FtProgressBar v-if="showProgressBar" />
-    
+    <FtProgressBar
+      v-if="showProgressBar"
+    />
     <MusicPlayer />
   </div>
 </template>
@@ -92,8 +125,9 @@ import { useI18n } from './composables/use-i18n-polyfill'
 import { useRoute, useRouter } from 'vue-router'
 
 import FtFlexBox from './components/ft-flex-box/ft-flex-box.vue'
-import TopNav from './components/TopNav/TopNav.vue'
-import SideNav from './components/SideNav/SideNav.vue'
+import Sidebar from './components/premium/Sidebar.vue'
+import TopBar from './components/premium/TopBar.vue'
+import MusicPlayer from './components/premium/MusicPlayer.vue'
 import FtNotificationBanner from './components/FtNotificationBanner/FtNotificationBanner.vue'
 import FtPrompt from './components/FtPrompt/FtPrompt.vue'
 import FtButton from './components/FtButton/FtButton.vue'
@@ -103,9 +137,6 @@ import FtPlaylistAddVideoPrompt from './components/FtPlaylistAddVideoPrompt/FtPl
 import FtCreatePlaylistPrompt from './components/FtCreatePlaylistPrompt/FtCreatePlaylistPrompt.vue'
 import FtKeyboardShortcutPrompt from './components/FtKeyboardShortcutPrompt/FtKeyboardShortcutPrompt.vue'
 import FtSearchFilters from './components/FtSearchFilters/FtSearchFilters.vue'
-import Sidebar from './components/premium/Sidebar.vue'
-import TopBar from './components/premium/TopBar.vue'
-import MusicPlayer from './components/premium/MusicPlayer.vue'
 import { vSaferHtml } from './directives/vSaferHtml.js'
 
 import store from './store/index'
@@ -223,12 +254,8 @@ const secColor = computed(() => store.getters.getSecColor)
 watch(secColor, updateTheme)
 
 function updateTheme() {
-  document.body.className = `dark mainRed secBlue`
-  document.body.dataset.systemTheme = 'dark'
-}
-
-function toggleSideNav() {
-  store.commit('setIsSideNavOpen', !isSideNavOpen.value)
+  document.body.className = `${baseTheme.value || 'system'} main${mainColor.value || 'Red'} sec${secColor.value || 'Blue'}`
+  document.body.dataset.systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 }
 
 updateTheme()
