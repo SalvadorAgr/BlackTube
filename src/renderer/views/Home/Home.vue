@@ -5,12 +5,42 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useI18n } from '../../composables/use-i18n-polyfill'
 import FocusRail from '../../components/premium/FocusRail.vue'
 import store from '../../store'
+import { getInvidiousPopularFeed } from '../../helpers/api/invidious'
 
 const { t } = useI18n()
+
+const popularVideos = ref([])
+
+onMounted(async () => {
+  try {
+    const items = await getInvidiousPopularFeed()
+    if (items && items.length > 0) {
+      popularVideos.value = items.slice(0, 10).map((video, index) => {
+        let img = 'https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=300&h=300&fit=crop'
+        if (video.thumbnail) {
+          img = video.thumbnail
+        } else if (video.videoThumbnails && video.videoThumbnails.length > 0) {
+          img = video.videoThumbnails[0].url
+        }
+
+        return {
+          id: video.videoId || index.toString(),
+          title: video.title || 'Untitled Video',
+          description: video.author || 'Unknown Channel',
+          imageSrc: img,
+          meta: t('Popular'),
+          href: `/watch/${video.videoId}`
+        }
+      })
+    }
+  } catch (err) {
+    console.error('Failed to fetch popular videos:', err)
+  }
+})
 
 const recentVideos = computed(() => {
   const history = store.getters.getHistoryCacheSorted || []
@@ -32,6 +62,8 @@ const recentVideos = computed(() => {
         href: `/watch/${video.videoId}`
       }
     })
+  } else if (popularVideos.value.length > 0) {
+    return popularVideos.value
   } else {
     return [
       {
@@ -68,6 +100,7 @@ const recentVideos = computed(() => {
   overflow: hidden !important;
   padding-block: 0 !important;
   padding-inline: 0 !important;
+  margin-block-start: 0 !important;
   height: 100vh !important;
   min-block-size: 100vh !important;
 }
@@ -80,6 +113,8 @@ const recentVideos = computed(() => {
   color: #fff;
   overflow: hidden;
   position: relative;
-  z-index: 10;
+  z-index: 1;
+  padding-top: 64px;
+  padding-bottom: 94px;
 }
 </style>

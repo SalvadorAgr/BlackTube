@@ -35,7 +35,7 @@
       >
         <div
           v-for="offset in visibleIndices"
-          :key="getAbsIndex(offset)"
+          :key="offset"
           role="button"
           tabindex="0"
           :class="[
@@ -156,7 +156,7 @@ const props = defineProps({
   },
   interval: {
     type: Number,
-    default: 5000
+    default: 1000
   }
 })
 

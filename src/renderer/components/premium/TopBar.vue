@@ -93,6 +93,7 @@ function goToSettings() {
   -webkit-backdrop-filter: blur(24px) saturate(180%);
   box-shadow: none;
   border: none;
+  transform: translate3d(0, 0, 100px);
 }
 
 .header-nav {

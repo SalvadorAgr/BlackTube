@@ -195,5 +195,6 @@ function toggleLike() {
   -webkit-backdrop-filter: blur(24px) saturate(180%);
   box-shadow: 0 -18px 48px rgb(0 0 0 / 36%);
   border: none;
+  transform: translate3d(0, 0, 100px);
 }
 </style>
