@@ -136,6 +136,13 @@ export default {
   },
 
   /**
+   * @param {'close' | 'minimize' | 'toggle-maximize'} action
+   */
+  setWindowControlAction: (action) => {
+    ipcRenderer.send(IpcChannels.SET_WINDOW_CONTROL_ACTION, action)
+  },
+
+  /**
    * @param {import('../main/externalPlayer').ExternalPlayerPayload} payload
    */
   openInExternalPlayer: (payload) => {

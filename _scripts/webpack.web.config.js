@@ -27,6 +27,7 @@ const config = {
     web: path.join(__dirname, '../src/renderer/main.js'),
   },
   output: {
+    publicPath: '/',
     path: path.join(__dirname, '../dist/web'),
     filename: '[name].js',
   },
@@ -63,6 +64,9 @@ const config = {
             }
           },
           {
+            loader: 'postcss-loader',
+          },
+          {
             loader: 'sass-loader',
             options: {
               implementation: require('sass')
@@ -81,6 +85,9 @@ const config = {
             options: {
               esModule: false
             }
+          },
+          {
+            loader: 'postcss-loader',
           }
         ],
         rules: [

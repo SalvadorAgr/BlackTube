@@ -7,22 +7,15 @@
       isLocaleRightToLeft: isLocaleRightToLeft
     }"
   >
-    <!-- Background Blobs for Glassmorphism -->
-    <div class="bg-blob blob-red" />
-    <div class="bg-blob blob-blue" />
-    <div class="bg-blob blob-purple" />
+    <AmbientAurora />
+    <WindowControls />
 
-    <!-- Premium Sidebar (fixed left) -->
-    <Sidebar :inert="isAnyPromptOpen" />
-
-    <!-- Premium TopBar (fixed top, offset by sidebar) -->
+    <!-- Premium TopBar -->
     <TopBar :inert="isAnyPromptOpen" />
 
     <!-- Main Content Area -->
     <main
       class="premium-main"
-      :class="isSideNavOpen ? 'ml-64' : 'ml-20'"
-      role="main"
       :inert="isAnyPromptOpen"
     >
       <div
@@ -119,15 +112,15 @@
 </template>
 
 <script setup>
-import { marked } from 'marked'
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useI18n } from './composables/use-i18n-polyfill'
 import { useRoute, useRouter } from 'vue-router'
 
 import FtFlexBox from './components/ft-flex-box/ft-flex-box.vue'
-import Sidebar from './components/premium/Sidebar.vue'
 import TopBar from './components/premium/TopBar.vue'
 import MusicPlayer from './components/premium/MusicPlayer.vue'
+import WindowControls from './components/premium/WindowControls.vue'
+import AmbientAurora from './components/ui/ambient-aurora.vue'
 import FtNotificationBanner from './components/FtNotificationBanner/FtNotificationBanner.vue'
 import FtPrompt from './components/FtPrompt/FtPrompt.vue'
 import FtButton from './components/FtButton/FtButton.vue'
@@ -151,12 +144,6 @@ const router = useRouter()
 const { locale, t } = useI18n()
 
 /** @type {import('vue').ComputedRef<boolean>} */
-const isSideNavOpen = computed(() => store.getters.getIsSideNavOpen)
-
-/** @type {import('vue').ComputedRef<boolean>} */
-const hideLabelsSideBar = computed(() => store.getters.getHideLabelsSideBar)
-
-/** @type {import('vue').ComputedRef<boolean>} */
 const isAnyPromptOpen = computed(() => store.getters.isAnyPromptOpen)
 
 /** @type {import('vue').ComputedRef<boolean>} */
@@ -174,7 +161,10 @@ const showCreatePlaylistPrompt = computed(() => store.getters.getShowCreatePlayl
 /** @type {import('vue').ComputedRef<boolean>} */
 const showProgressBar = computed(() => store.getters.getShowProgressBar)
 
-const landingPage = computed(() => '/' + store.getters.getLandingPage)
+const landingPage = computed(() => {
+  const page = store.getters.getLandingPage
+  return page === 'home' ? '/' : '/' + page
+})
 
 /** @type {import('vue').ComputedRef<string>} */
 const defaultInvidiousInstance = computed(() => store.getters.getDefaultInvidiousInstance)
@@ -219,7 +209,7 @@ onMounted(async () => {
     }, 500)
   })
 
-  if (route.path === '/') {
+  if (route.path === '/' && landingPage.value !== '/') {
     router.replace({ path: landingPage.value })
   }
 
@@ -266,9 +256,6 @@ const showReleaseNotes = ref(false)
 const changeLogTitle = ref('')
 const updateChangelog = ref('')
 
-/** @type {import('vue').ComputedRef<boolean>} */
-const checkForUpdates = computed(() => store.getters.getCheckForUpdates)
-
 const updateBannerMessage = computed(() => {
   return t('Version {versionNumber} is now available!  Click for more details', {
     versionNumber: latestVersionNumber.value
@@ -276,7 +263,7 @@ const updateBannerMessage = computed(() => {
 })
 
 async function checkForNewUpdates() {
-  return // Desactivado para eliminar dependencias externas
+  // Desactivado para eliminar dependencias externas
 }
 
 function toggleShowReleaseNotes() {

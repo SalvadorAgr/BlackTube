@@ -222,7 +222,7 @@ const state = {
   hideLabelsSideBar: false,
   hideChapters: false,
   showDistractionFreeTitles: false,
-  landingPage: 'subscriptions',
+  landingPage: 'home',
   listType: 'grid',
   maxVideoPlaybackRate: 3,
   onlyShowLatestFromChannel: false,

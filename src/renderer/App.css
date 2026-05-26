@@ -1,12 +1,12 @@
 :root {
   --bg-color: #020205;
-  --sidebar-bg: rgba(0, 0, 0, 0.4);
-  --header-bg: rgba(255, 255, 255, 0.03);
-  --text-primary: #FFFFFF;
-  --text-secondary: rgba(255, 255, 255, 0.6);
-  --accent-color: #FF0040;
-  --highlight-color: #FACD66;
-  --border-color: rgba(255, 255, 255, 0.08);
+  --sidebar-bg: rgb(0 0 0 / 40%);
+  --header-bg: rgb(255 255 255 / 3%);
+  --text-primary: #fff;
+  --text-secondary: rgb(255 255 255 / 60%);
+  --accent-color: #ff0040;
+  --highlight-color: #facd66;
+  --border-color: rgb(255 255 255 / 8%);
 }
 
 * {
@@ -20,15 +20,15 @@ body {
   padding: 0;
   background-color: var(--bg-color);
   color: var(--text-primary);
-  font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   font-size: 17.3px; /* 13pt approx */
   overflow: hidden;
 }
 
 
 .premium-shell {
-  min-height: 100vh;
-  width: 100vw;
+  min-block-size: 100vh;
+  inline-size: 100vw;
   overflow: hidden;
   background-color: var(--bg-color);
   color: var(--text-primary);
@@ -44,49 +44,45 @@ body {
 }
 
 .blob-red {
-  top: -10%;
-  left: -10%;
-  width: 40%;
-  height: 40%;
-  background: rgba(153, 0, 26, 0.2);
+  inset-block-start: -10%;
+  inset-inline-start: -10%;
+  inline-size: 40%;
+  block-size: 40%;
+  background: rgb(153 0 26 / 20%);
   filter: blur(120px);
 }
 
 .blob-blue {
-  bottom: -10%;
-  right: -10%;
-  width: 40%;
-  height: 40%;
-  background: rgba(0, 26, 102, 0.1);
+  inset-block-end: -10%;
+  inset-inline-end: -10%;
+  inline-size: 40%;
+  block-size: 40%;
+  background: rgb(0 26 102 / 10%);
   filter: blur(120px);
 }
 
 .blob-purple {
-  top: 20%;
-  right: 10%;
-  width: 30%;
-  height: 30%;
-  background: rgba(80, 0, 102, 0.1);
+  inset-block-start: 20%;
+  inset-inline-end: 10%;
+  inline-size: 30%;
+  block-size: 30%;
+  background: rgb(80 0 102 / 10%);
   filter: blur(100px);
 }
 
 .premium-main {
   position: relative;
   z-index: 1;
-  margin-top: 64px; /* TopBar height */
-  padding: 24px 32px 120px; /* Bottom padding for MusicPlayer */
-  min-height: calc(100vh - 64px);
+  margin-block-start: 64px; /* TopBar height */
+  padding-block: 24px 120px;
+  padding-inline: 32px; /* Bottom padding for MusicPlayer */
+  min-block-size: calc(100vh - 64px);
   overflow-y: auto;
-  transition: margin-left 0.3s ease;
 }
-
-/* Margin classes driven by sidebar state */
-.ml-64 { margin-left: 256px; }
-.ml-20 { margin-left: 80px; }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  inline-size: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -94,18 +90,17 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgb(255 255 255 / 10%);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgb(255 255 255 / 20%);
 }
 
-@media only screen and (max-width: 680px) {
+@media only screen and (width <= 680px) {
   .main-content-wrapper {
     flex-direction: column;
-    height: auto;
+    block-size: auto;
   }
 }
-

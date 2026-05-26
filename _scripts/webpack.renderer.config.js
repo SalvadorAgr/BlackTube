@@ -40,6 +40,7 @@ const config = {
     level: isDevMode ? 'info' : 'none'
   },
   output: {
+    publicPath: '/',
     scriptType: 'text/javascript',
     path: path.join(__dirname, '../dist'),
     filename: '[name].js',

@@ -967,6 +967,13 @@ function runApp() {
         ? path.join(__dirname, '../../_icons/iconColor.png')
         : path.join(__dirname, '../_icons/iconColor.png'),
       autoHideMenuBar: true,
+      frame: false,
+      ...process.platform === 'darwin'
+        ? {
+            titleBarStyle: 'hidden',
+            trafficLightPosition: { x: -100, y: -100 }
+          }
+        : {},
       // useContentSize: true,
       webPreferences: {
         webSecurity: false,
@@ -989,6 +996,10 @@ function runApp() {
             height: 800
           }
     })
+
+    if (process.platform === 'darwin') {
+      newWindow.setWindowButtonVisibility(false)
+    }
 
     // region Ensure child windows use same options since electron 14
 
@@ -1213,6 +1224,33 @@ function runApp() {
   ipcMain.on(IpcChannels.SET_WINDOW_TITLE, (event, title) => {
     if (isBlackTubeUrl(event.senderFrame.url) && typeof title === 'string') {
       BrowserWindow.fromWebContents(event.sender)?.setTitle(title)
+    }
+  })
+
+  ipcMain.on(IpcChannels.SET_WINDOW_CONTROL_ACTION, (event, action) => {
+    if (!isBlackTubeUrl(event.senderFrame.url)) {
+      return
+    }
+
+    const window = BrowserWindow.fromWebContents(event.sender)
+    if (window == null) {
+      return
+    }
+
+    switch (action) {
+      case 'close':
+        window.close()
+        break
+      case 'minimize':
+        window.minimize()
+        break
+      case 'toggle-maximize':
+        if (window.isMaximized()) {
+          window.unmaximize()
+        } else {
+          window.maximize()
+        }
+        break
     }
   })
 
